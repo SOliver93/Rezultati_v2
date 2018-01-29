@@ -29,30 +29,27 @@
         private void InitializeComponent()
         {
             this.dataGridViewTeams = new System.Windows.Forms.DataGridView();
-            this.Teams = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.izbornikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.izlazToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Teams = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sPlayers = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTeams)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridViewTeams
             // 
+            this.dataGridViewTeams.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewTeams.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewTeams.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Teams});
+            this.Teams,
+            this.sPlayers});
             this.dataGridViewTeams.Location = new System.Drawing.Point(12, 27);
             this.dataGridViewTeams.Name = "dataGridViewTeams";
-            this.dataGridViewTeams.Size = new System.Drawing.Size(1425, 594);
+            this.dataGridViewTeams.Size = new System.Drawing.Size(223, 495);
             this.dataGridViewTeams.TabIndex = 0;
-            // 
-            // Teams
-            // 
-            this.Teams.DataPropertyName = "sTeamName";
-            this.Teams.HeaderText = "Timovi";
-            this.Teams.Name = "Teams";
-            this.Teams.Width = 125;
+            this.dataGridViewTeams.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTeams_CellContentClick);
             // 
             // menuStrip1
             // 
@@ -60,7 +57,7 @@
             this.izbornikToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1449, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(247, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -79,11 +76,24 @@
             this.izlazToolStripMenuItem.Text = "Izlaz";
             this.izlazToolStripMenuItem.Click += new System.EventHandler(this.izlazToolStripMenuItem_Click);
             // 
+            // Teams
+            // 
+            this.Teams.DataPropertyName = "sTeamName";
+            this.Teams.HeaderText = "Timovi";
+            this.Teams.Name = "Teams";
+            // 
+            // sPlayers
+            // 
+            this.sPlayers.DataPropertyName = "sPlayers";
+            this.sPlayers.HeaderText = "Igrači";
+            this.sPlayers.Name = "sPlayers";
+            this.sPlayers.Visible = false;
+            // 
             // TeamsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1449, 633);
+            this.ClientSize = new System.Drawing.Size(247, 534);
             this.Controls.Add(this.dataGridViewTeams);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -100,9 +110,10 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridViewTeams;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Teams;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem izbornikToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem izlazToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Teams;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sPlayers;
     }
 }

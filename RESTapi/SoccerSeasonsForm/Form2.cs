@@ -24,6 +24,13 @@ namespace SoccerSeasonsForm
             REST League = new REST();
             List<LeagueTable> lLeague = League.GetLeagueTable(LeagueLink);
             dataGridViewLeague.DataSource = lLeague;            
+
+            List<string> lSortCriterias = new List<string>()
+            {
+                "‐",
+                "Zabijeni golovi"                
+            };
+            comboBoxSortiranje.DataSource = lSortCriterias;
         }
         public SoccerSeasonsForm WindowsFormUser { get; private set; }
 
@@ -36,5 +43,40 @@ namespace SoccerSeasonsForm
         {
             this.Close();
         }
+
+        private void pretraga2_Click(object sender, EventArgs e)
+        {
+            string sPretrazi2 = (string)textBoxPretraga2.Text;
+            REST League = new REST();
+            List<LeagueTable> lLeague = League.GetLeagueTable(LeagueLink);
+            dataGridViewLeague.DataSource = lLeague.Where(o => o.sTeamName.Contains(sPretrazi2)).ToList();
+        }
+
+        private void comboBoxSortiranje_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string sKriterij = (string)comboBoxSortiranje.SelectedItem;
+            REST League = new REST();
+            List<LeagueTable> lLeague = League.GetLeagueTable(LeagueLink);
+            switch (sKriterij)
+            {
+                case "Zabijeni golovi":
+                    dataGridViewLeague.DataSource = lLeague.OrderBy(o => o.sGoals).ToList();
+                    break;                
+            }
+        }
+
+        private void checkBoxDesc_CheckedChanged(object sender, EventArgs e)
+        {
+            REST League = new REST();
+            List<LeagueTable> lLeague = League.GetLeagueTable(LeagueLink);
+            if (checkBoxDesc.Checked == true)
+            {
+                dataGridViewLeague.DataSource = lLeague.OrderByDescending(o => o.sGoals).ToList();
+            }
+            else
+            {
+                dataGridViewLeague.DataSource = lLeague.OrderBy(o => o.sGoals).ToList();
+            }
+        }        
     }
 }

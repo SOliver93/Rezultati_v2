@@ -16,7 +16,7 @@ namespace SoccerSeasonsForm
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SoccerSeasonsForm());
+            Application.Run(new FormUserLogin());
         }
     }
 }

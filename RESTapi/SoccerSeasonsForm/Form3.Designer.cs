@@ -44,6 +44,7 @@
             // 
             // dataGridViewFixtures
             // 
+            this.dataGridViewFixtures.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewFixtures.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewFixtures.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Date,
@@ -54,7 +55,7 @@
             this.goalsAwayTeam});
             this.dataGridViewFixtures.Location = new System.Drawing.Point(12, 27);
             this.dataGridViewFixtures.Name = "dataGridViewFixtures";
-            this.dataGridViewFixtures.Size = new System.Drawing.Size(1429, 594);
+            this.dataGridViewFixtures.Size = new System.Drawing.Size(918, 480);
             this.dataGridViewFixtures.TabIndex = 0;
             // 
             // Date
@@ -62,7 +63,6 @@
             this.Date.DataPropertyName = "sFixtureDate";
             this.Date.HeaderText = "Datum";
             this.Date.Name = "Date";
-            this.Date.Width = 200;
             // 
             // Matchday
             // 
@@ -100,7 +100,7 @@
             this.izbornikToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1453, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(942, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -123,7 +123,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1453, 633);
+            this.ClientSize = new System.Drawing.Size(942, 519);
             this.Controls.Add(this.dataGridViewFixtures);
             this.Controls.Add(this.menuStrip1);
             this.Name = "FixturesForm";

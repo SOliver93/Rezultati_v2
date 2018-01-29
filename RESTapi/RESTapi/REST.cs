@@ -8,6 +8,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace RESTapi
 {
@@ -17,6 +19,7 @@ namespace RESTapi
         public List<LeagueTable> lLeague = new List<LeagueTable>();
         public List<Fixtures> lFixtures = new List<Fixtures>();
         public List<Teams> lTeams = new List<Teams>();
+        public List<Players> lPlayers = new List<Players>();
         public static string CallRestMethod(string url)
         {
             HttpWebRequest webrequest = (HttpWebRequest)WebRequest.Create(url);
@@ -129,11 +132,92 @@ namespace RESTapi
             {
                 lRESTTeams.Add(new Teams
                 {
-                    sTeamName = (string)oTeams[i]["name"]                   
-                });
+                    sTeamName = (string)oTeams[i]["name"],
+                    sPlayers = (string)oTeams[i]["_links"]["players"]["href"],
+            });
             }
             return lRESTTeams;
         }
-    }               
+
+        public List<Players> GetPlayers(string sUrl4)
+        {
+            Debug.WriteLine(sUrl4);
+            string sJson = CallRestMethod(sUrl4);
+            JObject oJson = JObject.Parse(sJson);
+            var oPlayers = oJson["players"].ToList();
+            List<Players> lRESTPlayers = new List<Players>();
+            for (int i = 0; i < oPlayers.Count; i++)
+            {
+                lRESTPlayers.Add(new Players
+                {
+                    sPName = (string)oPlayers[i]["name"],
+                    sPosition = (string)oPlayers[i]["position"],
+                    sjerseyNumber = (string)oPlayers[i]["jerseyNumber"],
+                    sdateOfBirth = (string)oPlayers[i]["dateOfBirth"],
+                    snationality = (string)oPlayers[i]["nationality"],
+                    scontractUntil = (string)oPlayers[i]["contractUntil"],                    
+            });
+            }
+            return lRESTPlayers;
+        }
+
+        public List<Users> GetUsers()
+        {
+            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Repository\RESTapi\SoccerSeasonsForm\Login.mdf;Integrated Security=True;Connect Timeout=30");
+            SqlDataAdapter sda = new SqlDataAdapter("Select * From Users", con);
+            DataTable dt = new DataTable();           
+            sda.Fill(dt);
+            List<Users> lRESTUsers = new List<Users>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                lRESTUsers.Add(new Users
+                {
+                    nUserID = (int)dt.Rows[i]["Id"],
+                    sUsername = (string)dt.Rows[i]["Username"],
+                    sPassword = (string)dt.Rows[i]["Password"],
+                    sRole = (string)dt.Rows[i]["Role"]
+                });
+            }
+            return lRESTUsers;
+        } 
+        
+        public void DeleteUser(Users oUser)
+        {
+            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Repository\RESTapi\SoccerSeasonsForm\Login.mdf;Integrated Security=True;Connect Timeout=30");
+            SqlDataAdapter sda = new SqlDataAdapter("DELETE FROM Users WHERE Id='" + oUser.nUserID + "'", con);
+            DataTable dt = new DataTable();            
+            sda.Fill(dt);
+            dt.AcceptChanges();
+        }
+        public void EditUser(Users oUser)
+        {
+            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Repository\RESTapi\SoccerSeasonsForm\Login.mdf;Integrated Security=True;Connect Timeout=30");
+            SqlDataAdapter sda = new SqlDataAdapter("UPDATE Users SET Username='" + oUser.sUsername + "', Password= '" + oUser.sPassword + "', Role='" + oUser.sRole + "' WHERE Id=" + oUser.nUserID, con);
+            DataTable dt = new DataTable();            
+            sda.Fill(dt);
+            dt.AcceptChanges();
+        }
+        public void AddUser(Users oUser)
+        {
+            SqlConnection con2 = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Repository\RESTapi\SoccerSeasonsForm\Login.mdf;Integrated Security=True;Connect Timeout=30");
+            SqlDataAdapter sda2 = new SqlDataAdapter("Select * From Users", con2);
+            DataTable dt2 = new DataTable();
+            sda2.Fill(dt2);
+            List<Users> lRESTUsers = new List<Users>();
+            int n = 1;
+            int IdCount;
+            for (int i = 0; i < dt2.Rows.Count; i++)
+            {
+                n = n + 1;
+            }
+            IdCount = n;
+            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Repository\RESTapi\SoccerSeasonsForm\Login.mdf;Integrated Security=True;Connect Timeout=30");
+            SqlDataAdapter sda = new SqlDataAdapter("INSERT INTO Users (Id, Username, Password, Role) VALUES ('" + IdCount + "', '" + oUser.sUsername + "', '" + oUser.sPassword + "', '" + oUser.sRole + "' );", con);
+            DataTable dt = new DataTable();            
+            sda.Fill(dt);
+            dt.AcceptChanges();
+        }        
+    }        
+                   
 }
 

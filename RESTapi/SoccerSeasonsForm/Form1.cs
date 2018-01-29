@@ -13,13 +13,14 @@ namespace SoccerSeasonsForm
 {
     public partial class SoccerSeasonsForm : Form
     {
-        public SoccerSeasonsForm()
+        public SoccerSeasonsForm(string role)
         {
             InitializeComponent();
+            labelStatus.Text = role;
 
             REST Seasons = new REST();
             List<SoccerSeason> lSeasons = Seasons.GetSoccerSeasons();            
-            dataGridViewSeasons.DataSource = lSeasons;
+            dataGridViewSeasons.DataSource = lSeasons;            
 
             DataGridViewImageColumn oTablicaButton = new DataGridViewImageColumn();
             oTablicaButton.Image = Image.FromFile("D:/Repository/RESTapi/SoccerSeasonsForm/table.png");            
@@ -46,29 +47,78 @@ namespace SoccerSeasonsForm
         {
             dataGridViewSeasons.Rows[e.RowIndex].Selected = true;
             if (dataGridViewSeasons.CurrentCell.ColumnIndex.Equals(12) && e.RowIndex != -1)
-            { 
-                string sUrl = dataGridViewSeasons.Rows[e.RowIndex].Cells[9].Value.ToString();
-                FormLeague FormLeague = new FormLeague(this,sUrl);                              
-                FormLeague.Show();                
+            {
+                try
+                {
+                    string sUrl = dataGridViewSeasons.Rows[e.RowIndex].Cells[9].Value.ToString();
+                    FormLeague FormLeague = new FormLeague(this, sUrl);
+                    FormLeague.Show();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }                            
             }
 
             else if (dataGridViewSeasons.CurrentCell.ColumnIndex.Equals(13) && e.RowIndex != -1)
             {
-                string sUrl2 = dataGridViewSeasons.Rows[e.RowIndex].Cells[10].Value.ToString();
-                FixturesForm FixturesForm = new FixturesForm(this, sUrl2);
-                FixturesForm.Show();
+                try
+                {
+                    string sUrl2 = dataGridViewSeasons.Rows[e.RowIndex].Cells[10].Value.ToString();
+                    FixturesForm FixturesForm = new FixturesForm(this, sUrl2);
+                    FixturesForm.Show();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
 
             else if (dataGridViewSeasons.CurrentCell.ColumnIndex.Equals(14) && e.RowIndex != -1)
             {
-                string sUrl3 = dataGridViewSeasons.Rows[e.RowIndex].Cells[11].Value.ToString();
-                TeamsForm TeamsForm = new TeamsForm(this, sUrl3);
-                TeamsForm.Show();
+                try
+                {
+                    string sUrl3 = dataGridViewSeasons.Rows[e.RowIndex].Cells[11].Value.ToString();
+                    TeamsForm TeamsForm = new TeamsForm(this, sUrl3);
+                    TeamsForm.Show();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
         private void izlazToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+            FormUserLogin ful = new FormUserLogin();
+            ful.Show();
+        }
+
+        private void pretraga_Click(object sender, EventArgs e)
+        {
+            string sPretrazi = (string)textBoxPretraga.Text;
+            REST Seasons = new REST();
+            List<SoccerSeason> lSeasons = Seasons.GetSoccerSeasons();
+            dataGridViewSeasons.DataSource = lSeasons.Where(o => o.sCaption.Contains(sPretrazi)).ToList();
+        }
+
+        private void buttonEdit_Click(object sender, EventArgs e)
+        {
+            if (labelStatus.Text == "Admin")
+            {
+                FormEditUsers FormEditUsers = new FormEditUsers();
+                FormEditUsers.Show();
+            }
+            else
+            {
+                MessageBox.Show("Samo administrator može uređivati korisnike!");
+            }
+        }
+
+        private void SoccerSeasonForm_Load(object sender, EventArgs e)
+        {
+           
         }
     }
 }
